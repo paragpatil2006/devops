@@ -5,20 +5,20 @@ FROM neo4j:4.4.9-community
 USER root
 
 RUN apt-get update -y
-RUN apt-get install wget apt-transport-https gnupg lsb-release apt-utils curl sudo golang-go docker.io -y
+RUN apt-get install wget apt-utils curl sudo golang-go git -y
 
 # Export the variable(s).
 #RUN export GUACSEC_HOME="$(go env GOPATH)/src/github.com/guacsec"
-RUN export GUACSEC_HOME="/root/go/src/github.com/guacsec"
+RUN export GUACSEC_HOME="$(go env GOPATH)/src/github.com/guacsec"
 # Create the folders.
-#RUN mkdir -p ${GUACSEC_HOME}
-#RUN cd ${GUACSEC_HOME}
-RUN cd /root/go/src/github.com/guacsec
+#RUN mkdir -p "${GUACSEC_HOME}"
+RUN mkdir -p /root/go/src/github.com/guacsec
+RUN cd ${GUACSEC_HOME}
+#RUN cd /root/go/src/github.com/guacsec
 # Clone the Guacsec repositories.
-RUN git clone git@github.com:guacsec/guac-data.git
-RUN git clone git@github.com:guacsec/guac.git
+RUN git clone https://github.com/guacsec/guac-data.git
+RUN git clone https://github.com/guacsec/guac.git
 RUN cd guac
 RUN make build
 
-#Keep Neo4j Image Ready
 #docker run --rm -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/s3cr3t -e NEO4J_apoc_export_file_enabled=true -e NEO4J_apoc_import_file_enabled=true -e NEO4J_apoc_import_file_use__neo4j__config=true -e NEO4JLABS_PLUGINS=\[\"apoc\"\] neo4j:4.4.9-community
