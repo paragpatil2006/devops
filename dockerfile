@@ -16,10 +16,11 @@ ENV MAVEN_HOME /opt/maven
 
 RUN chown -R jenkins:jenkins /opt/maven
 
+RUN apt-get update -y
 RUN apt-get install apt-transport-https gnupg lsb-release
 RUN wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add -
 RUN echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list
-RUN apt-get update
+RUN apt-get update -y
 RUN apt-get install -y trivy
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
