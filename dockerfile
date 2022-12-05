@@ -4,7 +4,7 @@ FROM jenkins/jenkins:lts
 #Build the container
 USER root
 RUN apt-get update -y
-RUN apt-get install wget -y
+RUN apt-get install wget apt-transport-https gnupg lsb-release -y
 
 RUN wget --no-verbose -O /tmp/apache-maven-3.8.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
 
@@ -16,8 +16,6 @@ ENV MAVEN_HOME /opt/maven
 
 RUN chown -R jenkins:jenkins /opt/maven
 
-RUN apt-get update -y
-RUN apt-get install apt-transport-https gnupg lsb-release
 RUN wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add -
 RUN echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list
 RUN apt-get update -y
