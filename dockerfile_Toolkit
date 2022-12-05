@@ -14,6 +14,7 @@ RUN apt-get install -y trivy
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
 RUN curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 
+#make .rb repo public and then run
 RUN wget -O /usr/bin/palosade-sbom.rb https://github.com/paragpatil2006/Exp1/blob/main/simple-sbom.rb
 RUN apt-get clean
 
