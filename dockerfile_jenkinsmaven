@@ -1,0 +1,18 @@
+#Pull Jenkins Base Image
+FROM jenkins/jenkins:lts
+
+#Build the container
+USER root
+RUN apt-get update -y
+RUN apt-get install wget -y
+
+RUN wget --no-verbose -O /tmp/apache-maven-3.8.6-bin.tar.gz https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+
+RUN tar xzf /tmp/apache-maven-3.8.6-bin.tar.gz -C /opt/
+RUN ln -s /opt/apache-maven-3.8.6 /opt/maven
+RUN ln -s /opt/maven/bin/mvn /usr/local/bin
+RUN rm -f /tmp/apache-maven-3.8.6-bin.tar.gz
+ENV MAVEN_HOME /opt/maven
+RUN apt-get clean
+
+USER jenkins
